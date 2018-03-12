@@ -18,7 +18,7 @@ public abstract class GameObject {
 
     public abstract void render(Graphics g);
 
-
+    //Setters and getters
     public int getX() {
         return x;
     }

@@ -9,6 +9,7 @@ będzie ona je updatować i renderować na ekranie.
 public class Handler {
     LinkedList<GameObject> object = new LinkedList<GameObject>();
 
+    //Z każdym ticknięciem dla każdego obiektu wywołuje się jego update
     public void tick(){
         for (int i = 0; i < object.size(); i++){
             GameObject tempObject = object.get(i);
@@ -16,6 +17,7 @@ public class Handler {
             tempObject.tick();
         }
     }
+    //Z każdym ticknięciem dla każdego obiektu renderuje się on
     public void render(Graphics g) {
         for (int i = 0; i < object.size(); i++) {
             GameObject tempObject = object.get(i);
@@ -24,7 +26,7 @@ public class Handler {
         }
 
     }
-
+    //Funkcje dodające/usuwające obiekty, ktorymi sterujemy
     public void addObject(GameObject object){
         this.object.add(object);
     }
