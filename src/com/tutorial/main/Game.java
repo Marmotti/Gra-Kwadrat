@@ -12,6 +12,8 @@ public class Game extends Canvas implements Runnable {
 
     private Handler handler;
     private HUD hud;
+    private Spawn spawn;
+
     private Random random;
 
     //Konstruktor gry
@@ -22,11 +24,13 @@ public class Game extends Canvas implements Runnable {
         new Window (WIDTH, HEIGHT, "Pierwsza Gra", this);
 
         hud = new HUD();
+        spawn = new Spawn(handler, hud);
         random = new Random();
 
-        handler.addObject(new Player(WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player));
-        handler.addObject(new Player(0, HEIGHT/2 - 32, ID.Player2));
-        handler.addObject(new BasicEnemy(64, 64, ID.Enemy));
+        handler.addObject(new Player(WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player, handler));
+        handler.addObject(new Player(0, HEIGHT/2 - 32, ID.Player2, handler));
+        handler.addObject(new BasicEnemy(clamp(random.nextInt(WIDTH), 64, WIDTH - 64), (clamp(random.nextInt(HEIGHT), 64, HEIGHT - 64)), ID.BasicEnemy, handler));
+        handler.addObject(new QuickBoi(64, 64, ID.QuickEnemy, handler));
 
     }
     //Metoda startująca  naszą grę
@@ -55,6 +59,7 @@ public class Game extends Canvas implements Runnable {
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+
         while(running){
             long now = System.nanoTime();
             delta += (now - lastTime) / time ;
@@ -69,7 +74,7 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                // System.out.println("FPS: " + frames);
+                System.out.println("FPS: " + frames);
                 frames = 0;
             }
         }
@@ -79,8 +84,9 @@ public class Game extends Canvas implements Runnable {
     private void tick(){
         handler.tick();
         hud.tick();
+        spawn.tick();
     }
-
+    //Wszystkie funckje rysujące obiekty
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null){
