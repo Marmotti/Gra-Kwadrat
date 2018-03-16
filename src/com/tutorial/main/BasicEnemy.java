@@ -6,7 +6,7 @@ public class BasicEnemy extends GameObject {
 
     private Handler handler;
 
-    public BasicEnemy(int x, int y, ID id, Handler handler) {
+    public BasicEnemy(float x, float y, ID id, Handler handler) {
         super(x, y, id);
 
         velX = 2;
@@ -15,7 +15,7 @@ public class BasicEnemy extends GameObject {
         this.handler = handler;
     }
     public Rectangle getBounds(){
-        return new Rectangle(x, y, 16, 16);
+        return new Rectangle((int)x, (int)y, 16, 16);
     }
     public void tick() {
         x += velX;
@@ -32,6 +32,6 @@ public class BasicEnemy extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect(x, y, 16, 16);
+        g.fillRect((int)x, (int)y, 16, 16);
     }
 }

@@ -5,6 +5,7 @@ public enum ID {
     Player2(),
     BasicEnemy(),
     QuickEnemy(),
+    BallChaser(),
     TrailOval(),
     TrailRect();
 }

@@ -5,13 +5,18 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
     private Handler handler;
-    private boolean[][] keyDown = new boolean[2][4];
+    private int up[]= new int[2];
+    private int down[]= new int[2];
+    private int left[]= new int[2];
+    private int right[]= new int[2];
 
     public KeyInput(Handler handler){
         this.handler = handler;
-    for (int i = 0; i<=3; i++){
-     keyDown[0][i] = false;
-     keyDown[1][i] = false;
+    for (int i = 0; i<2; i++){
+     up[i] = 0;
+     down[i] = 0;
+     left[i] = 0;
+     right[i] = 0;
     }
     }
 
@@ -23,17 +28,21 @@ public class KeyInput extends KeyAdapter {
 
             //Key events for Player
             if (tempObject.id == ID.Player){
-                if (key == KeyEvent.VK_W){tempObject.setVelY(-2);   keyDown[0][0] = true;}
-                if (key == KeyEvent.VK_S){tempObject.setVelY( 2);   keyDown[0][1] = true;}
-                if (key == KeyEvent.VK_A){tempObject.setVelX(-2);   keyDown[0][2] = true;}
-                if (key == KeyEvent.VK_D){tempObject.setVelX( 2);   keyDown[0][3] = true;}
+                if (key == KeyEvent.VK_W){up[0] = 2;   }
+                if (key == KeyEvent.VK_S){down[0] = 2; }
+                if (key == KeyEvent.VK_A){left[0] = 2; }
+                if (key == KeyEvent.VK_D){right[0] = 2;}
+                tempObject.setVelX(right[0] - left[0]);
+                tempObject.setVelY(   down[0] - up[0]);
             }
             //Key events for Player2
             if (tempObject.id == ID.Player2){
-                if (key == KeyEvent.VK_UP){tempObject.setVelY(-2);      keyDown[1][0] = true;}
-                if (key == KeyEvent.VK_DOWN){tempObject.setVelY( 2);    keyDown[1][1] = true;}
-                if (key == KeyEvent.VK_LEFT){tempObject.setVelX(-2);    keyDown[1][2] = true;}
-                if (key == KeyEvent.VK_RIGHT){tempObject.setVelX( 2);   keyDown[1][3] = true;}
+                if (key == KeyEvent.VK_UP)   {up[1] = 2;   }
+                if (key == KeyEvent.VK_DOWN) {down[1] = 2; }
+                if (key == KeyEvent.VK_LEFT) {left[1] = 2; }
+                if (key == KeyEvent.VK_RIGHT){right[1] = 2;}
+                tempObject.setVelX(right[1] - left[1]);
+                tempObject.setVelY(down[1] - up[1]   );
             }
         }
     }
@@ -43,29 +52,21 @@ public class KeyInput extends KeyAdapter {
             GameObject tempObject = handler.object.get(i);
             //Key events for Player
             if (tempObject.id == ID.Player){
-                if (key == KeyEvent.VK_W){keyDown[0][0] = false;}
-                if (key == KeyEvent.VK_S){keyDown[0][1] = false;}
-                if (key == KeyEvent.VK_A){keyDown[0][2] = false;}
-                if (key == KeyEvent.VK_D){keyDown[0][3] = false;}
-                //Vertical
-                if (!keyDown[0][0] && !keyDown[0][1])
-                    tempObject.velY = 0;
-                //Horizontal
-                if (!keyDown[0][2] && !keyDown[0][3])
-                    tempObject.velX = 0;
+                if (key == KeyEvent.VK_W){up[0] = 0;   }
+                if (key == KeyEvent.VK_S){down[0] = 0; }
+                if (key == KeyEvent.VK_A){left[0] = 0; }
+                if (key == KeyEvent.VK_D){right[0] = 0;}
+                tempObject.setVelX(right[0] - left[0]);
+                tempObject.setVelY(   down[0] - up[0]);
             }
             //Key events for Player2
             if (tempObject.id == ID.Player2){
-                if (key == KeyEvent.VK_UP){keyDown[1][0] = false;}
-                if (key == KeyEvent.VK_DOWN){keyDown[1][1] = false;}
-                if (key == KeyEvent.VK_LEFT){keyDown[1][2] = false;}
-                if (key == KeyEvent.VK_RIGHT){keyDown[1][3] = false;}
-                //Vertical
-                if (!keyDown[1][0] && !keyDown[1][1])
-                    tempObject.velY = 0;
-                //Horizontal
-                if (!keyDown[1][2] && !keyDown[1][3])
-                    tempObject.velX = 0;
+                if (key == KeyEvent.VK_UP){up[1] = 0;      }
+                if (key == KeyEvent.VK_DOWN){down[1] = 0;  }
+                if (key == KeyEvent.VK_LEFT){left[1] = 0;  }
+                if (key == KeyEvent.VK_RIGHT){right[1] = 0;}
+                tempObject.setVelX(right[1] - left[1]);
+                tempObject.setVelY(   down[1] - up[1]);
             }
         }
     }

@@ -31,6 +31,7 @@ public class Game extends Canvas implements Runnable {
         handler.addObject(new Player(0, HEIGHT/2 - 32, ID.Player2, handler));
         handler.addObject(new BasicEnemy(clamp(random.nextInt(WIDTH), 64, WIDTH - 64), (clamp(random.nextInt(HEIGHT), 64, HEIGHT - 64)), ID.BasicEnemy, handler));
         handler.addObject(new QuickBoi(64, 64, ID.QuickEnemy, handler));
+        handler.addObject(new BallChaser(128, 64, ID.BallChaser, handler));
 
     }
     //Metoda startująca  naszą grę
@@ -68,6 +69,7 @@ public class Game extends Canvas implements Runnable {
                 tick();
                 delta--;
             }
+
             if(running)
                 render();
             frames++;
@@ -89,6 +91,7 @@ public class Game extends Canvas implements Runnable {
     //Wszystkie funckje rysujące obiekty
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
+
         if (bs == null){
             this.createBufferStrategy(3);
             return;
@@ -107,8 +110,10 @@ public class Game extends Canvas implements Runnable {
     }
     //Funkcja zabraniająca graczowi wyjscie poza pole, uzywana w klasie Player
     public static int clamp (int var, int min, int max){
+
         if (var >= max)
             return max;
+
         if (var <= min)
             return min;
         else

@@ -6,11 +6,11 @@ public class BasicTrail extends GameObject {
     private float alpha = 1;
     private Handler handler;
     private Color color;
-    private int width, height;
+    private float width, height;
     private double life;
     //life = 0.001 - 0.1
 
-    public BasicTrail(int x, int y, ID id, Color color, int width, int height, double life, Handler handler) {
+    public BasicTrail(float x, float y, ID id, Color color, float width, float height, double life, Handler handler) {
         super(x, y, id);
         this.color = color;
         this.width = width;
@@ -32,10 +32,13 @@ public class BasicTrail extends GameObject {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(makeTransparent(alpha));
         g.setColor(color);
+
         if (id == ID.TrailOval)
-            g.fillOval(x, y, width, height);
+            g.fillOval((int)x, (int)y, (int)width, (int)height);
+
         if (id == ID.TrailRect)
-            g.fillRect(x, y, width, height);
+            g.fillRect((int)x, (int)y, (int)width, (int)height);
+
         g2d.setComposite(makeTransparent(1));
     }
 

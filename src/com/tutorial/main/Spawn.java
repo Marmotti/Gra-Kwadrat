@@ -18,12 +18,14 @@ public class Spawn {
     public void tick(){
             scoreKeep++;
 
-        if (scoreKeep >= 1000){
+        if (scoreKeep >= 500){
             scoreKeep = 0;
             hud.setLevel(hud.getLevel() + 1);
         }
         if (hud.getLevel() <= 6 && hud.getLevel() == nOfEnemies + 1){
             nOfEnemies++;
+            if (nOfEnemies == 2)
+                handler.addObject(new BallChaser(Game.clamp(r.nextInt(Game.WIDTH), 64, Game.WIDTH - 64), Game.clamp(r.nextInt(Game.HEIGHT), 64, Game.HEIGHT - 64), ID.BallChaser, handler));
             if (nOfEnemies == 4)
                 handler.addObject(new QuickBoi(Game.clamp(r.nextInt(Game.WIDTH), 64, Game.WIDTH - 64), Game.clamp(r.nextInt(Game.HEIGHT), 64, Game.HEIGHT - 64), ID.QuickEnemy, handler));
             else
