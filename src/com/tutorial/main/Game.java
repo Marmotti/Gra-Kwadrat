@@ -13,26 +13,37 @@ public class Game extends Canvas implements Runnable {
     private Handler handler;
     private HUD hud;
     private Spawn spawn;
+    private Menu menu;
+    private Tutorial tutorial;
+    private ScoreBoard scoreBoard;
 
     private Random random;
+
+    public STATE gameState = STATE.Menu;
 
     //Konstruktor gry
     public Game(){
         handler = new Handler();
+        menu = new Menu(this, handler);
+        tutorial = new Tutorial(this, handler);
+        scoreBoard = new ScoreBoard(this);
+
         this.addKeyListener(new KeyInput(handler));
+        this.addMouseListener(menu);
+        this.addMouseListener(tutorial);
+        this.addMouseListener(scoreBoard);
 
         new Window (WIDTH, HEIGHT, "Pierwsza Gra", this);
 
         hud = new HUD();
         spawn = new Spawn(handler, hud);
         random = new Random();
-
-        handler.addObject(new Player(WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player, handler));
-        handler.addObject(new Player(0, HEIGHT/2 - 32, ID.Player2, handler));
-        handler.addObject(new BasicEnemy(clamp(random.nextInt(WIDTH), 64, WIDTH - 64), (clamp(random.nextInt(HEIGHT), 64, HEIGHT - 64)), ID.BasicEnemy, handler));
-        handler.addObject(new QuickBoi(64, 64, ID.QuickEnemy, handler));
-        handler.addObject(new BallChaser(128, 64, ID.BallChaser, handler));
-
+        if (gameState == STATE.Game) {
+            handler.addObject(new Player(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player, handler));
+            handler.addObject(new Player(0, Game.HEIGHT / 2 - 32, ID.Player2, handler));
+            handler.addObject(new QuickBoi(64, 64, ID.QuickEnemy, handler));
+            handler.addObject(new BallChaser(128, 64, ID.BallChaser, handler));
+        }
     }
     //Metoda startująca  naszą grę
     public synchronized void start(){
@@ -85,8 +96,20 @@ public class Game extends Canvas implements Runnable {
 
     private void tick(){
         handler.tick();
-        hud.tick();
-        spawn.tick();
+
+        if (gameState == STATE.Game) {
+            hud.tick();
+            spawn.tick();
+        }
+        else if (gameState == STATE.Menu){
+            menu.tick();
+        }
+        else if (gameState == STATE.Help){
+            tutorial.tick();
+        }
+        else if (gameState == STATE.Scores){
+            scoreBoard.tick();
+        }
     }
     //Wszystkie funckje rysujące obiekty
     private void render(){
@@ -103,7 +126,19 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0,0,WIDTH, HEIGHT);
 
         handler.render(g);
-        hud.render(g);
+
+        if (gameState == STATE.Game) {
+            hud.render(g);
+        }
+        else if (gameState == STATE.Menu){
+            menu.render(g);
+        }
+        else if (gameState == STATE.Help){
+            tutorial.render(g);
+        }
+        else if (gameState == STATE.Scores){
+            scoreBoard.render(g);
+        }
 
         g.dispose();
         bs.show();

@@ -25,7 +25,7 @@ public class Spawn {
         if (hud.getLevel() <= 6 && hud.getLevel() == nOfEnemies + 1){
             nOfEnemies++;
             if (nOfEnemies == 2)
-                handler.addObject(new BallChaser(Game.clamp(r.nextInt(Game.WIDTH), 64, Game.WIDTH - 64), Game.clamp(r.nextInt(Game.HEIGHT), 64, Game.HEIGHT - 64), ID.BallChaser, handler));
+                handler.addObject(new BallChaser(Game.clamp(r.nextInt(Game.WIDTH), 64, Game.WIDTH - 64), Game.clamp(r.nextInt(Game.HEIGHT), 64, Game.HEIGHT - 64), ID.BallChaser2, handler));
             if (nOfEnemies == 4)
                 handler.addObject(new QuickBoi(Game.clamp(r.nextInt(Game.WIDTH), 64, Game.WIDTH - 64), Game.clamp(r.nextInt(Game.HEIGHT), 64, Game.HEIGHT - 64), ID.QuickEnemy, handler));
             else
