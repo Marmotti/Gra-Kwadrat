@@ -46,7 +46,9 @@ public class Player extends GameObject {
             if(tempObject.id == ID.BasicEnemy || tempObject.id == ID.QuickEnemy || tempObject.id == ID.BallChaser){
                 if(getBounds().intersects(tempObject.getBounds())){
                     //Collision code
-                    HUD.setHEALTH(HUD.getHEALTH() - 1);
+                    if(HUD.getHEALTH() > 0) {
+                        HUD.setHEALTH(HUD.getHEALTH() - 1);
+                    }
                 }
             }
         }
