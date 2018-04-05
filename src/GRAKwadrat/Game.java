@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -6,7 +6,10 @@ import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
     //Stałe oraz jeden główny wątek
-    public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+    public static final int WIDTH = 640, HEIGHT = 480;
+    public static int currentWidth = 640, currentHeight = 480;
+
+    private Window window;
     private Thread thread;
     private boolean running = false; //czy gra działa
 
@@ -14,8 +17,9 @@ public class Game extends Canvas implements Runnable {
     private HUD hud;
     private Spawn spawn;
     private Menu menu;
-    private Tutorial tutorial;
+    private Help help;
     private ScoreBoard scoreBoard;
+    public PlayerChoice playerChoice;
 
     private Random random;
 
@@ -25,25 +29,23 @@ public class Game extends Canvas implements Runnable {
     public Game(){
         handler = new Handler();
         menu = new Menu(this, handler);
-        tutorial = new Tutorial(this, handler);
+        help = new Help(this, handler);
         scoreBoard = new ScoreBoard(this);
+        playerChoice = new PlayerChoice(this, handler);
 
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(menu);
-        this.addMouseListener(tutorial);
+        this.addMouseListener(help);
         this.addMouseListener(scoreBoard);
+        this.addMouseListener(playerChoice);
 
-        new Window (WIDTH, HEIGHT, "Pierwsza Gra", this);
+
+        window = new Window(WIDTH, HEIGHT, "Pierwsza Gra", this);
 
         hud = new HUD();
-        spawn = new Spawn(handler, hud);
+        spawn = new Spawn(handler, hud, playerChoice);
         random = new Random();
-        if (gameState == STATE.Game) {
-            handler.addObject(new Player(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player, handler));
-            handler.addObject(new Player(0, Game.HEIGHT / 2 - 32, ID.Player2, handler));
-            handler.addObject(new QuickBoi(64, 64, ID.QuickEnemy, handler));
-            handler.addObject(new BallChaser(128, 64, ID.BallChaser, handler));
-        }
+
     }
     //Metoda startująca  naszą grę
     public synchronized void start(){
@@ -88,6 +90,7 @@ public class Game extends Canvas implements Runnable {
             if (System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
                 System.out.println("FPS: " + frames);
+                System.out.println("Currentwidth= " + currentWidth + " Currentheight= " + currentHeight);
                 frames = 0;
             }
         }
@@ -95,6 +98,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick(){
+
         handler.tick();
 
         if (gameState == STATE.Game) {
@@ -105,10 +109,13 @@ public class Game extends Canvas implements Runnable {
             menu.tick();
         }
         else if (gameState == STATE.Help){
-            tutorial.tick();
+            help.tick();
         }
-        else if (gameState == STATE.Scores){
+        else if (gameState == STATE.ScoreBoard){
             scoreBoard.tick();
+        }
+        else if (gameState == STATE.PlayerChoice){
+            playerChoice.tick();
         }
     }
     //Wszystkie funckje rysujące obiekty
@@ -123,7 +130,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bs.getDrawGraphics();
 
         g.setColor(Color.orange);
-        g.fillRect(0,0,WIDTH, HEIGHT);
+        g.fillRect(0,0, currentWidth, currentHeight);
 
         handler.render(g);
 
@@ -134,12 +141,14 @@ public class Game extends Canvas implements Runnable {
             menu.render(g);
         }
         else if (gameState == STATE.Help){
-            tutorial.render(g);
+            help.render(g);
         }
-        else if (gameState == STATE.Scores){
+        else if (gameState == STATE.ScoreBoard){
             scoreBoard.render(g);
         }
-
+        else if (gameState == STATE.PlayerChoice){
+            playerChoice.render(g);
+        }
         g.dispose();
         bs.show();
     }
@@ -160,4 +169,8 @@ public class Game extends Canvas implements Runnable {
         new Game();
 
     }
+
 }
+
+
+

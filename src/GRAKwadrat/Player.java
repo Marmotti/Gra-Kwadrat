@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 import java.awt.*;
 import java.util.Random;
@@ -19,8 +19,8 @@ public class Player extends GameObject {
         x += velX;
         y += velY;
         //Zabronienie graczowi wyjścia poza okno; dlaczego wartości 48 i 68 px? Bo tak działa xD, sprawdzone empirycznie
-        x = Game.clamp ((int)x, 0, Game.WIDTH - 48);
-        y = Game.clamp ((int)y, 0, Game.HEIGHT - 68);
+        x = Game.clamp ((int)x, 0, Game.currentWidth - 48);
+        y = Game.clamp ((int)y, 0, Game.currentHeight - 68);
 
         Color tempColor;
         tempColor = new Color(1);

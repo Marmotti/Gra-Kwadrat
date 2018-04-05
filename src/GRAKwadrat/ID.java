@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 public enum ID {
     Player(),

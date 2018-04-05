@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 import java.awt.*;
 
@@ -12,23 +12,27 @@ public class HUD {
 
     public void tick(){
         Game.clamp(HEALTH, 0, 100);
+
+        if (HEALTH == 0)
+            System.exit(1);
         score++;
         points += 0.002;
+
     }
     public void render(Graphics g){
 
         //Healthbar
         g.setColor(Color.gray);;
-        g.fillRect(Game.WIDTH/2 - 50, Game.HEIGHT - Game.HEIGHT/5, 100, 20);
+        g.fillRect(Game.currentWidth /2 - 50, Game.currentHeight - Game.currentHeight /5, (5*Game.currentWidth)/32, Game.currentHeight /24);
         g.setColor(Color.green);
-        g.fillRect(Game.WIDTH/2 - 50, Game.HEIGHT - Game.HEIGHT/5, HEALTH, 20);
+        g.fillRect(Game.currentWidth /2 - 50, Game.currentHeight - Game.currentHeight /5, HEALTH, Game.currentHeight /24);
         g.setColor(Color.white);
-        g.drawRect(Game.WIDTH/2 - 50, Game.HEIGHT - Game.HEIGHT/5, 100, 20);
+        g.drawRect(Game.currentWidth /2 - 50, Game.currentHeight - Game.currentHeight /5, (5*Game.currentWidth)/32, Game.currentHeight /24);
 
         //Renderowanie statystyk
-        g.drawString("Level: " + level,8, 12 );
-        g.drawString("Score: " + ((int) score/10), 8, 24);
-        g.drawString("Points: " + ((int) points), 8, 36);
+        g.drawString("Level: " + level,Game.currentWidth /80, Game.currentHeight /40);
+        g.drawString("Score: " + ((int) score/10), Game.currentWidth /80, Game.currentHeight /20);
+        g.drawString("Points: " + ((int) points), Game.currentWidth /80, 3*Game.currentHeight /40);
 
     }
     //Settery i gettery

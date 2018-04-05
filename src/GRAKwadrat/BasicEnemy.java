@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 import java.awt.*;
 
@@ -21,9 +21,9 @@ public class BasicEnemy extends GameObject {
         x += velX;
         y += velY;
         //Zabrania przeciwnikom wyjśc poza okno
-        if(x <= 0 || x >= Game.WIDTH - 32)
+        if(x <= 0 || x >= Game.currentWidth - 32)
             velX = -velX;
-        if(y <= 0 || y >= Game.HEIGHT - 48)
+        if(y <= 0 || y >= Game.currentHeight - 48)
             velY = -velY;
 
         handler.addObject(new BasicTrail(x, y, ID.TrailRect, Color.red, 16, 16,0.05, handler ));

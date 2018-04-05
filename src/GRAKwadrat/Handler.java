@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 import java.awt.*;
 import java.util.LinkedList;

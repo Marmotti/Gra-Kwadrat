@@ -1,4 +1,4 @@
-package com.tutorial.main;
+package GRAKwadrat;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
